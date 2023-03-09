@@ -1,0 +1,56 @@
+{% block content %}
+    <div id="main-content">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="header">
+            <h1>{{ 'general.thank-you-transport-submit' | trans }}</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><h3>{{ 'general.transport-details' | trans }}</h3></div>
+            <div class="card-body">
+                <div class="item">
+                    <strong>
+                        {{ 'general.from' | trans }}
+                    </strong>
+                    {{ transport.from }}
+                </div>
+
+                <div class="item">
+                    <strong>
+                        {{ 'general.to' | trans }}
+                    </strong>
+                    {{ transport.to }}
+                </div>
+
+                <div class="item">
+                    <strong>
+                        {{ 'general.airplane.name' | trans }}
+                    </strong>
+                    {{ transport.airplane.name }}
+                </div>
+
+                <div class="item">
+                    <strong>
+                        {{ 'general.airplane.maxCargoWeight' | trans }}
+                    </strong>
+                    {{ transport.airplane.maxCargoWeight }}
+                </div>
+
+                <div class="item">
+                    <strong>
+                        {{ 'general.transportDate' | trans }}
+                    </strong>
+                    {{ transport.date.toDateString }}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
