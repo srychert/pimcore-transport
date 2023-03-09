@@ -38,8 +38,8 @@ class TransportController extends BaseController
             $transport->setKey('Transport-' . time());
 
             $transport->setAirplane($airplane);
-            $transport->setFrom('Gdańsk');
-            $transport->setTo('Stuttgart');
+            $transport->setFrom($formData['from']);
+            $transport->setTo($formData['to']);
             $transport->setDate(Carbon::parse($formData['date']));
 
             $transport->save();

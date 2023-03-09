@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Validator\IsWorkDay;
 use Pimcore\Model\DataObject\Airplane;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -41,14 +42,15 @@ class TransportSubmitFormType extends AbstractType
             ->add('airplane', ChoiceType::class, [
                 'label' => 'general.airplane',
                 'required' => true,
-                'choices' => $airplaneChoices
+                'choices' => $airplaneChoices,
+                'constraints' => [new NotBlank()]
             ])
             ->add('date', DateType::class, [
                 'label' => 'general.transportDate',
                 'required' => true,
                 'widget' => 'single_text',
                 'input' => 'datetime_immutable',
-                'constraints' => [new GreaterThan('today')]
+                'constraints' => [new NotBlank(), new GreaterThan('today'), new isWorkDay()]
             ]);
 
         $builder
