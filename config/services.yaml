@@ -1,5 +1,6 @@
 parameters:
     secret: ls6FLht1Ow/vnBkCB/Dcvv1bu8r4zITQu5LQlR9FmNs=
+    documents_directory: '../var/uploads/documents'
 
     # customize the full path to external executables
     # normally they are auto-detected by `which program` or auto-discovered in the configured path in

@@ -9,6 +9,7 @@
  * - to [input]
  * - airplane [manyToOneRelation]
  * - date [date]
+ * - documents [fieldcollections]
  */
 
 return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
@@ -17,7 +18,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Transport',
    'description' => '',
    'creationDate' => 0,
-   'modificationDate' => 1678369497,
+   'modificationDate' => 1678385094,
    'userOwner' => 2,
    'userModification' => 2,
    'parentClass' => '',
@@ -192,6 +193,38 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'defaultValue' => NULL,
              'useCurrentDate' => false,
              'defaultValueGenerator' => '',
+          )),
+          4 => 
+          Pimcore\Model\DataObject\ClassDefinition\Data\Fieldcollections::__set_state(array(
+             'name' => 'documents',
+             'title' => 'Documents',
+             'tooltip' => '',
+             'mandatory' => false,
+             'noteditable' => false,
+             'index' => false,
+             'locked' => false,
+             'style' => '',
+             'permissions' => NULL,
+             'datatype' => 'data',
+             'fieldtype' => 'fieldcollections',
+             'relationType' => false,
+             'invisible' => false,
+             'visibleGridView' => false,
+             'visibleSearch' => false,
+             'blockedVarsForExport' => 
+            array (
+            ),
+             'allowedTypes' => 
+            array (
+              0 => 'Document',
+            ),
+             'lazyLoading' => true,
+             'maxItems' => NULL,
+             'disallowAddRemove' => false,
+             'disallowReorder' => false,
+             'collapsed' => false,
+             'collapsible' => false,
+             'border' => false,
           )),
         ),
          'locked' => false,
