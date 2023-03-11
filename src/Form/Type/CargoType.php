@@ -48,7 +48,7 @@ class CargoType extends AbstractType
         $values = array_map(fn($type): string => $type['value'], $options);
 
         $resolver->setDefaults([
-            'data_class' => Cargo::class,
+//            'data_class' => Cargo::class,
             'cargo_constraints' => [],
             'cargo_types' => $values
         ]);

@@ -80,6 +80,10 @@
                 collectionHolder.dataset.index
             );
 
+        // adds weight unit to label
+        const label = item.getElementsByTagName('label')[1]
+        label.innerText = label.innerText + ' [kg]'
+
         // add a delete link to the new form
         addCargoFormDeleteLink(item);
 

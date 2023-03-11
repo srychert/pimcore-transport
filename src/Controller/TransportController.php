@@ -39,7 +39,7 @@ class TransportController extends BaseController
             // resubmit form with computed option for validation
             if(!is_null($airplane)) {
                 $form = $this->createForm(TransportSubmitFormType::class,
-                    options: ['max_cargo_weight' => $airplane->getMaxCargoWeight()]);
+                    options: ['max_cargo_weight' => $airplane->getMaxCargoWeight()->getValue()]);
                 $form->handleRequest($request);
             }
         }
@@ -92,13 +92,22 @@ class TransportController extends BaseController
             }
 
             $cargoes = $formData['cargoes'];
+            $newCargoes = [];
+            $unit = DataObject\QuantityValue\Unit::getByAbbreviation("kg");
             foreach ($cargoes as $cargo) {
-                $cargo->setParent(Service::createFolderByPath('/upload/cargoes'));
-                $cargo->setKey('Cargo-' . uniqid());
-                $cargo->save();
+                $newCargo = new DataObject\Cargo();
+                $newCargo->setParent(Service::createFolderByPath('/upload/cargoes'));
+                $newCargo->setKey('Cargo-' . uniqid());
+
+                $newCargo->setName($cargo['name']);
+                $newCargo->setWeight(new DataObject\Data\QuantityValue($cargo['weight'], $unit->getId()));
+                $newCargo->setCargoType($cargo['cargoType']);
+
+                $newCargo->save();
+                $newCargoes[] = $newCargo;
             }
 
-            $transport->setCargoes($cargoes);
+            $transport->setCargoes($newCargoes);
 
             $transport->save();
 

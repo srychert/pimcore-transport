@@ -6,7 +6,7 @@
  *
  * Fields Summary:
  * - name [input]
- * - maxCargoWeight [numeric]
+ * - maxCargoWeight [quantityValue]
  */
 
 return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
@@ -15,7 +15,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Airplane',
    'description' => '',
    'creationDate' => 0,
-   'modificationDate' => 1678369454,
+   'modificationDate' => 1678552121,
    'userOwner' => 2,
    'userModification' => 2,
    'parentClass' => '',
@@ -95,7 +95,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'defaultValueGenerator' => '',
           )),
           1 => 
-          Pimcore\Model\DataObject\ClassDefinition\Data\Numeric::__set_state(array(
+          Pimcore\Model\DataObject\ClassDefinition\Data\QuantityValue::__set_state(array(
              'name' => 'maxCargoWeight',
              'title' => 'Max Cargo Weight',
              'tooltip' => '',
@@ -106,7 +106,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'style' => '',
              'permissions' => NULL,
              'datatype' => 'data',
-             'fieldtype' => 'numeric',
+             'fieldtype' => 'quantityValue',
              'relationType' => false,
              'invisible' => false,
              'visibleGridView' => false,
@@ -115,14 +115,21 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
             array (
             ),
              'width' => '',
+             'unitWidth' => '',
              'defaultValue' => NULL,
-             'integer' => true,
+             'defaultUnit' => '1',
+             'validUnits' => 
+            array (
+              0 => '1',
+            ),
+             'integer' => false,
              'unsigned' => true,
              'minValue' => NULL,
              'maxValue' => NULL,
-             'unique' => false,
+             'unique' => NULL,
              'decimalSize' => NULL,
              'decimalPrecision' => NULL,
+             'autoConvert' => false,
              'defaultValueGenerator' => '',
           )),
         ),

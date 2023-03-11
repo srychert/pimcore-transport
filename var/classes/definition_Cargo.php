@@ -6,7 +6,7 @@
  *
  * Fields Summary:
  * - name [input]
- * - weight [numeric]
+ * - weight [quantityValue]
  * - cargoType [select]
  */
 
@@ -16,7 +16,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Cargo',
    'description' => '',
    'creationDate' => 0,
-   'modificationDate' => 1678550862,
+   'modificationDate' => 1678552038,
    'userOwner' => 2,
    'userModification' => 2,
    'parentClass' => '',
@@ -96,7 +96,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'defaultValueGenerator' => '',
           )),
           1 => 
-          Pimcore\Model\DataObject\ClassDefinition\Data\Numeric::__set_state(array(
+          Pimcore\Model\DataObject\ClassDefinition\Data\QuantityValue::__set_state(array(
              'name' => 'weight',
              'title' => 'Weight',
              'tooltip' => '',
@@ -107,7 +107,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'style' => '',
              'permissions' => NULL,
              'datatype' => 'data',
-             'fieldtype' => 'numeric',
+             'fieldtype' => 'quantityValue',
              'relationType' => false,
              'invisible' => false,
              'visibleGridView' => false,
@@ -116,14 +116,21 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
             array (
             ),
              'width' => '',
+             'unitWidth' => '',
              'defaultValue' => NULL,
+             'defaultUnit' => '1',
+             'validUnits' => 
+            array (
+              0 => '1',
+            ),
              'integer' => false,
              'unsigned' => true,
-             'minValue' => 1,
+             'minValue' => NULL,
              'maxValue' => NULL,
-             'unique' => false,
+             'unique' => NULL,
              'decimalSize' => NULL,
              'decimalPrecision' => NULL,
+             'autoConvert' => false,
              'defaultValueGenerator' => '',
           )),
           2 => 
