@@ -49,6 +49,21 @@
                     {{ transport.date.toDateString }}
                 </div>
 
+                <div class="item">
+                    <strong>
+                        {{ 'general.cargoes' | trans }}
+                    </strong>
+                    <ul>
+                        {% for cargo in cargoes %}
+                            <li>
+                                {{ cargo.name }}
+                                {{ cargo.weight }}
+                                {{ cargo.type }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>

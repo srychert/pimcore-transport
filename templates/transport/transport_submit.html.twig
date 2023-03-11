@@ -5,7 +5,92 @@
             <h1>{{ pimcore_input('headline') }}</h1>
         </div>
 
-        {{ form(form) }}
+        {{ form_start(form) }}
+        <div class="form-erros">
+            {{ form_errors(form) }}
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.to) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.from) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.airplane) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.documents) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.date) }}
+            </div>
+            <div class="col">
+                {{ form_label(form.cargoes) }}
+                {{ form_errors(form.cargoes) }}
+                <ul class="cargoes"
+                    data-index="{{ form.cargoes|length > 0 ? form.cargoes|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(form.cargoes.vars.prototype)|e('html_attr') }}"
+                >
+                    {% for cargo in form.cargoes %}
+                        <li>
+                            {{ form_errors(cargo) }}
+                            {{ form_widget(cargo) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <button type="button" class="add_item_link" data-collection-holder-class="cargoes">Add a Cargo</button>
+            </div>
+            <div class="col">
+                {{ form_row(form._submit) }}
+            </div>
+        </div>
+        {{ form_widget(form._token) }}
+{#        to not render twice empty collection of 'cargoes'#}
+        {{ form_end(form, {'render_rest': false}) }}
 
     </div>
 {% endblock %}
+
+<script>
+    const addCargoFormDeleteLink = (item) => {
+        const removeFormButton = document.createElement('button');
+        removeFormButton.innerText = 'Delete this cargo';
+
+        item.append(removeFormButton);
+
+        removeFormButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            // remove the li for the cargo form
+            item.remove();
+        });
+    }
+
+    const addFormToCollection = (e) => {
+        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+        const item = document.createElement('li');
+
+        item.innerHTML = collectionHolder
+            .dataset
+            .prototype
+            .replace(
+                /__name__/g,
+                collectionHolder.dataset.index
+            );
+
+        // add a delete link to the new form
+        addCargoFormDeleteLink(item);
+
+        collectionHolder.appendChild(item);
+
+        collectionHolder.dataset.index++;
+    };
+
+    document
+        .querySelectorAll('.add_item_link')
+        .forEach(btn => {
+            btn.addEventListener("click", addFormToCollection)
+        });
+</script>

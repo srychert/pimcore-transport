@@ -38,7 +38,7 @@ class TransportController extends BaseController
 
             $transport = new Transport();
             $transport->setParent(Service::createFolderByPath('/upload/transports'));
-            $transport->setKey('Transport-' . time());
+            $transport->setKey('Transport-' . uniqid());
 
             $transport->setAirplane($airplane);
             $transport->setFrom($formData['from']);
@@ -78,11 +78,21 @@ class TransportController extends BaseController
                 $transport->setDocuments($documents);
             }
 
+            $cargoes = $formData['cargoes'];
+            foreach ($cargoes as $cargo) {
+                $cargo->setParent(Service::createFolderByPath('/upload/cargoes'));
+                $cargo->setKey('Cargo-' . uniqid());
+                $cargo->save();
+            }
+
+            $transport->setCargoes($cargoes);
+
             $transport->save();
 
             $this->addFlash('success', $translator->trans('general.transport-submitted'));
 
-            return $this->render('transport/transport_submit_success.html.twig', ['transport' => $transport]);
+            return $this->render('transport/transport_submit_success.html.twig',
+                ['transport' => $transport, 'cargoes' => $cargoes]);
         }
 
         return $this->render('transport/transport_submit.html.twig', [
