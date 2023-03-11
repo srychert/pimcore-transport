@@ -35,16 +35,22 @@ class CargoType extends AbstractType
                     'cargo.dangerous' => 'dangerous',
                 ],
                 'required' => true,
-                'constraints' => [new NotBlank(), new Choice(['choices' => ['normal', 'dangerous']])]
+                'constraints' => [new NotBlank(), new Choice(['choices' => $options['cargo_types']])]
             ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $object = new Cargo();
+        $fd = $object->getClass()->getFieldDefinition("cargoType");
+        $options = $fd->getOptions();
+        $values = array_map(fn($type): string => $type['value'], $options);
+
         $resolver->setDefaults([
             'data_class' => Cargo::class,
-            'cargo_constraints' => []
+            'cargo_constraints' => [],
+            'cargo_types' => $values
         ]);
     }
 }

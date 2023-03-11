@@ -16,7 +16,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Cargo',
    'description' => '',
    'creationDate' => 0,
-   'modificationDate' => 1678539436,
+   'modificationDate' => 1678550862,
    'userOwner' => 2,
    'userModification' => 2,
    'parentClass' => '',
@@ -150,12 +150,12 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
             array (
               0 => 
               array (
-                'key' => 'normal',
+                'key' => 'general.cargo.type.normal',
                 'value' => 'normal',
               ),
               1 => 
               array (
-                'key' => 'dangerous',
+                'key' => 'general.cargo.type.dangerous',
                 'value' => 'dangerous',
               ),
             ),
