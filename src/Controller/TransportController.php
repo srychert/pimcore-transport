@@ -31,6 +31,19 @@ class TransportController extends BaseController
         $form = $this->createForm(TransportSubmitFormType::class);
         $form->handleRequest($request);
 
+        // getting airplane based on select field for cargo weight validation
+        if($form->isSubmitted()) {
+            $formData = $form->getData();
+            $airplane = Airplane::getById($formData['airplane']);
+
+            // resubmit form with computed option for validation
+            if(!is_null($airplane)) {
+                $form = $this->createForm(TransportSubmitFormType::class,
+                    options: ['max_cargo_weight' => $airplane->getMaxCargoWeight()]);
+                $form->handleRequest($request);
+            }
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
 

@@ -26,7 +26,7 @@ class CargoType extends AbstractType
             ->add('weight', NumberType::class, [
                 'label' => 'general.cargo.weight',
                 'required' => true,
-                'constraints' => [new NotBlank(), new Positive()]
+                'constraints' => array_merge($options['cargo_constraints'], [new NotBlank(), new Positive()])
             ])
             ->add('cargoType', ChoiceType::class, [
                 'label' => 'general.cargo.type',
@@ -44,6 +44,7 @@ class CargoType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Cargo::class,
+            'cargo_constraints' => []
         ]);
     }
 }

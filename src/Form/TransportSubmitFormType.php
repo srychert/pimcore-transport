@@ -13,10 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class TransportSubmitFormType extends AbstractType
@@ -85,7 +87,10 @@ class TransportSubmitFormType extends AbstractType
             ])
             ->add('cargoes', CollectionType::class, [
                     'entry_type' => CargoType::class,
-                    'entry_options' => ['label' => false],
+                    'entry_options' => [
+                        'label' => false,
+                        'cargo_constraints' => [new LessThanOrEqual($options['max_cargo_weight'])],
+                    ],
                     'required' => true,
                     'allow_add' => true,
                     'constraints' => [new Count([
@@ -101,5 +106,12 @@ class TransportSubmitFormType extends AbstractType
                     'class' => 'btn btn-block btn-success'
                 ]
             ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'max_cargo_weight' => 0,
+        ]);
     }
 }
