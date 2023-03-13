@@ -88,13 +88,17 @@ pimcore:
 #        proxy_port: ''
 #        proxy_user: ''
 #        proxy_pass: ''
-#    email:
-#        sender:
-#            name: 'Pimcore Demo'
-#            email: demo@pimcore.com
-#        return:
-#            name: ''
-#            email: ''
+    email:
+        sender:
+            name: 'Pimcore Demo'
+            email: demo@pimcore.com
+        return:
+            name: ''
+            email: ''
+    templating_engine:
+        twig:
+            sandbox_security_policy:
+                tags: [ 'for' ]
 #    newsletter:
 #        use_specific: false # set true to use the following options for newsletter delivery
 #        sender:
@@ -134,7 +138,8 @@ framework:
 #        handler_id: null
 
 #### SYMFONY MAILER TRANSPORTS
-#    mailer:
-#        transports:
+    mailer:
+        transports:
+            main: '%env(MAILER_DSN)%'
 #            main: smtp://user:pass@smtp.example.com:port
 #            pimcore_newsletter: smtp://user:pass@smtp.example.com:port

@@ -37,13 +37,6 @@
 
                 <div class="item">
                     <strong>
-                        {{ 'general.airplane.maxCargoWeight' | trans }}
-                    </strong>
-                    {{ transport.airplane.maxCargoWeight }}
-                </div>
-
-                <div class="item">
-                    <strong>
                         {{ 'general.transportDate' | trans }}
                     </strong>
                     {{ transport.date.toDateString }}
@@ -53,15 +46,20 @@
                     <strong>
                         {{ 'general.cargoes' | trans }}
                     </strong>
-                    <ul>
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Weight</th>
+                            <th>Type</th>
+                        </tr>
                         {% for cargo in cargoes %}
-                            <li>
-                                {{ cargo.name }}
-                                {{ cargo.weight }}
-                                {{ cargo.cargoType }}
-                            </li>
+                            <tr>
+                                <td>{{ cargo.name }}</td>
+                                <td>{{ cargo.weight }}</td>
+                                <td>{{ cargo.cargoType }}</td>
+                            </tr>
                         {% endfor %}
-                    </ul>
+                    </table>
                 </div>
 
             </div>

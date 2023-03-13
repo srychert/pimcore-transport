@@ -61,6 +61,13 @@ services:
         tags: [ 'console.command' ]
 
 
+    #
+    # SERVICES
+    #
+
+    App\Service\:
+        resource: '../src/Service/*'
+
 
     # Example custom templating helper
     # App\Templating\Helper\Example:

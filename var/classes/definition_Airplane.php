@@ -7,6 +7,7 @@
  * Fields Summary:
  * - name [input]
  * - maxCargoWeight [quantityValue]
+ * - email [email]
  */
 
 return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
@@ -15,7 +16,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Airplane',
    'description' => '',
    'creationDate' => 0,
-   'modificationDate' => 1678552121,
+   'modificationDate' => 1678710413,
    'userOwner' => 2,
    'userModification' => 2,
    'parentClass' => '',
@@ -126,10 +127,41 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'unsigned' => true,
              'minValue' => NULL,
              'maxValue' => NULL,
-             'unique' => NULL,
+             'unique' => false,
              'decimalSize' => NULL,
              'decimalPrecision' => NULL,
              'autoConvert' => false,
+             'defaultValueGenerator' => '',
+          )),
+          2 => 
+          Pimcore\Model\DataObject\ClassDefinition\Data\Email::__set_state(array(
+             'name' => 'email',
+             'title' => 'Email',
+             'tooltip' => '',
+             'mandatory' => false,
+             'noteditable' => false,
+             'index' => false,
+             'locked' => false,
+             'style' => '',
+             'permissions' => NULL,
+             'datatype' => 'data',
+             'fieldtype' => 'email',
+             'relationType' => false,
+             'invisible' => false,
+             'visibleGridView' => false,
+             'visibleSearch' => false,
+             'blockedVarsForExport' => 
+            array (
+            ),
+             'width' => '',
+             'defaultValue' => NULL,
+             'columnLength' => 190,
+             'regex' => '',
+             'regexFlags' => 
+            array (
+            ),
+             'unique' => NULL,
+             'showCharCount' => NULL,
              'defaultValueGenerator' => '',
           )),
         ),

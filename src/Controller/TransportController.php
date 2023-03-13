@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Form\TransportSubmitFormType;
+use App\Service\TransportEmailGenerator;
 use Carbon\Carbon;
 use Exception;
 use Pimcore\Model\DataObject;
@@ -26,7 +27,8 @@ class TransportController extends BaseController
      *
      * @throws Exception
      */
-    public function transportSubmitAction(Request $request, Translator $translator, SluggerInterface $slugger)
+    public function transportSubmitAction(Request $request, Translator $translator, SluggerInterface $slugger,
+                                          TransportEmailGenerator $generator)
     {
         $form = $this->createForm(TransportSubmitFormType::class);
         $form->handleRequest($request);
@@ -86,6 +88,7 @@ class TransportController extends BaseController
             }
 
             $cargoes = $formData['cargoes'];
+            /** @var DataObject\Cargo[] $newCargoes */
             $newCargoes = [];
             $unit = DataObject\QuantityValue\Unit::getByAbbreviation("kg");
             foreach ($cargoes as $cargo) {
@@ -105,10 +108,13 @@ class TransportController extends BaseController
 
             $transport->save();
 
+            $mail = $generator->create($transport, $newCargoes, $documents);
+            $mail->send();
+
             $this->addFlash('success', $translator->trans('general.transport-submitted'));
 
             return $this->render('transport/transport_submit_success.html.twig',
-                ['transport' => $transport, 'cargoes' => $cargoes]);
+                ['transport' => $transport, 'cargoes' => $newCargoes]);
         }
 
         return $this->render('transport/transport_submit.html.twig', [
