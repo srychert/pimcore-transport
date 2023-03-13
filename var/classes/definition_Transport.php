@@ -9,8 +9,8 @@
  * - to [input]
  * - airplane [manyToOneRelation]
  * - date [date]
- * - documents [fieldcollections]
  * - cargoes [manyToManyObjectRelation]
+ * - documents [manyToManyRelation]
  */
 
 return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
@@ -19,7 +19,7 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'name' => 'Transport',
    'description' => '',
    'creationDate' => 0,
-   'modificationDate' => 1678539422,
+   'modificationDate' => 1678708961,
    'userOwner' => 2,
    'userModification' => 2,
    'parentClass' => '',
@@ -196,38 +196,6 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'defaultValueGenerator' => '',
           )),
           4 => 
-          Pimcore\Model\DataObject\ClassDefinition\Data\Fieldcollections::__set_state(array(
-             'name' => 'documents',
-             'title' => 'Documents',
-             'tooltip' => '',
-             'mandatory' => false,
-             'noteditable' => false,
-             'index' => false,
-             'locked' => false,
-             'style' => '',
-             'permissions' => NULL,
-             'datatype' => 'data',
-             'fieldtype' => 'fieldcollections',
-             'relationType' => false,
-             'invisible' => false,
-             'visibleGridView' => false,
-             'visibleSearch' => false,
-             'blockedVarsForExport' => 
-            array (
-            ),
-             'allowedTypes' => 
-            array (
-              0 => 'Document',
-            ),
-             'lazyLoading' => true,
-             'maxItems' => NULL,
-             'disallowAddRemove' => false,
-             'disallowReorder' => false,
-             'collapsed' => false,
-             'collapsible' => false,
-             'border' => false,
-          )),
-          5 => 
           Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyObjectRelation::__set_state(array(
              'name' => 'cargoes',
              'title' => 'Cargoes',
@@ -265,6 +233,61 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
              'visibleFieldDefinitions' => 
             array (
             ),
+          )),
+          5 => 
+          Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyRelation::__set_state(array(
+             'name' => 'documents',
+             'title' => 'Documents',
+             'tooltip' => '',
+             'mandatory' => false,
+             'noteditable' => false,
+             'index' => false,
+             'locked' => false,
+             'style' => '',
+             'permissions' => NULL,
+             'datatype' => 'data',
+             'fieldtype' => 'manyToManyRelation',
+             'relationType' => true,
+             'invisible' => false,
+             'visibleGridView' => false,
+             'visibleSearch' => false,
+             'blockedVarsForExport' => 
+            array (
+            ),
+             'classes' => 
+            array (
+              0 => 
+              array (
+                'classes' => '',
+              ),
+            ),
+             'pathFormatterClass' => '',
+             'width' => '',
+             'height' => '',
+             'maxItems' => NULL,
+             'assetUploadPath' => '',
+             'objectsAllowed' => false,
+             'assetsAllowed' => true,
+             'assetTypes' => 
+            array (
+              0 => 
+              array (
+                'assetTypes' => 'document',
+              ),
+              1 => 
+              array (
+                'assetTypes' => 'image',
+              ),
+            ),
+             'documentsAllowed' => false,
+             'documentTypes' => 
+            array (
+              0 => 
+              array (
+                'documentTypes' => '',
+              ),
+            ),
+             'enableTextSelection' => false,
           )),
         ),
          'locked' => false,
@@ -326,18 +349,18 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
    'deletedDataComponents' => 
   array (
     0 => 
-    Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyObjectRelation::__set_state(array(
-       'name' => 'cargos',
-       'title' => 'Cargos',
+    Pimcore\Model\DataObject\ClassDefinition\Data\ManyToManyRelation::__set_state(array(
+       'name' => 'assets',
+       'title' => 'Assets',
        'tooltip' => '',
-       'mandatory' => true,
+       'mandatory' => false,
        'noteditable' => false,
        'index' => false,
        'locked' => false,
        'style' => '',
        'permissions' => NULL,
        'datatype' => 'data',
-       'fieldtype' => 'manyToManyObjectRelation',
+       'fieldtype' => 'manyToManyRelation',
        'relationType' => true,
        'invisible' => false,
        'visibleGridView' => false,
@@ -347,23 +370,23 @@ return Pimcore\Model\DataObject\ClassDefinition::__set_state(array(
       ),
        'classes' => 
       array (
-        0 => 
-        array (
-          'classes' => 'Cargo',
-        ),
       ),
        'pathFormatterClass' => '',
        'width' => '',
        'height' => '',
        'maxItems' => NULL,
+       'assetUploadPath' => '',
        'queryColumnType' => 'text',
-       'visibleFields' => 'cargoType,weight,name,id',
-       'allowToCreateNewObject' => true,
-       'optimizedAdminLoading' => false,
-       'enableTextSelection' => false,
-       'visibleFieldDefinitions' => 
+       'objectsAllowed' => false,
+       'assetsAllowed' => true,
+       'assetTypes' => 
       array (
       ),
+       'documentsAllowed' => false,
+       'documentTypes' => 
+      array (
+      ),
+       'enableTextSelection' => false,
     )),
   ),
    'blockedVarsForExport' => 

@@ -11,7 +11,7 @@ use Pimcore\Model\DataObject\Airplane;
 use Pimcore\Model\DataObject\Service;
 use Pimcore\Model\DataObject\Transport;
 use Pimcore\Translation\Translator;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -58,9 +58,9 @@ class TransportController extends BaseController
             $transport->setTo($formData['to']);
             $transport->setDate(Carbon::parse($formData['date']));
 
-
+            /** @var UploadedFile[] $files */
             $files = $form->get('documents')->getData();
-            $documents = new DataObject\Fieldcollection();
+            $documents = [];
 
             // this condition is needed because the 'documents' field is not required
             // so the files must be processed only when uploaded
@@ -72,20 +72,14 @@ class TransportController extends BaseController
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
-                    // Move the file to the directory where documents are stored
-                    try {
-                        $file->move(
-                            $this->getParameter('documents_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
+                    $newAsset = new \Pimcore\Model\Asset();
+                    $newAsset->setFilename($newFilename);
+                    $newAsset->setData(file_get_contents($file->getPathname()));
+                    $newAsset->setParent(\Pimcore\Model\Asset\Service::createFolderByPath("/upload/documents"));
 
-                    $document = new DataObject\Fieldcollection\Data\Document();
-                    $document->setName($newFilename);
+                    $newAsset->save();
 
-                    $documents->add($document);
+                    $documents[] = $newAsset;
                 }
 
                 $transport->setDocuments($documents);
