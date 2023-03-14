@@ -4,10 +4,12 @@ namespace App\Controller;
 
 
 use App\Form\TransportSubmitFormType;
+use App\Service\TransportCargoesService;
+use App\Service\TransportDocumentsService;
 use App\Service\TransportEmailGenerator;
 use Carbon\Carbon;
 use Exception;
-use Pimcore\Model\DataObject;
+use Pimcore\Model\Asset;
 use Pimcore\Model\DataObject\Airplane;
 use Pimcore\Model\DataObject\Service;
 use Pimcore\Model\DataObject\Transport;
@@ -15,7 +17,6 @@ use Pimcore\Translation\Translator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TransportController extends BaseController
 {
@@ -27,8 +28,10 @@ class TransportController extends BaseController
      *
      * @throws Exception
      */
-    public function transportSubmitAction(Request $request, Translator $translator, SluggerInterface $slugger,
-                                          TransportEmailGenerator $generator)
+    public function transportSubmitAction(Request $request, Translator $translator,
+                                          TransportDocumentsService $documentsService,
+                                          TransportCargoesService $cargoesService,
+                                          TransportEmailGenerator $generator): Response
     {
         $form = $this->createForm(TransportSubmitFormType::class);
         $form->handleRequest($request);
@@ -62,59 +65,29 @@ class TransportController extends BaseController
 
             /** @var UploadedFile[] $files */
             $files = $form->get('documents')->getData();
+
+            /** @var Asset[] $documents */
             $documents = [];
 
             // this condition is needed because the 'documents' field is not required
             // so the files must be processed only when uploaded
             if ($files) {
-                foreach ($files as $file)
-                {
-                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-
-                    $newAsset = new \Pimcore\Model\Asset();
-                    $newAsset->setFilename($newFilename);
-                    $newAsset->setData(file_get_contents($file->getPathname()));
-                    $newAsset->setParent(\Pimcore\Model\Asset\Service::createFolderByPath("/upload/documents"));
-
-                    $newAsset->save();
-
-                    $documents[] = $newAsset;
-                }
-
+                $documents = $documentsService->create($files);
                 $transport->setDocuments($documents);
             }
 
-            $cargoes = $formData['cargoes'];
-            /** @var DataObject\Cargo[] $newCargoes */
-            $newCargoes = [];
-            $unit = DataObject\QuantityValue\Unit::getByAbbreviation("kg");
-            foreach ($cargoes as $cargo) {
-                $newCargo = new DataObject\Cargo();
-                $newCargo->setParent(Service::createFolderByPath('/upload/cargoes'));
-                $newCargo->setKey('Cargo-' . uniqid());
-
-                $newCargo->setName($cargo['name']);
-                $newCargo->setWeight(new DataObject\Data\QuantityValue($cargo['weight'], $unit->getId()));
-                $newCargo->setCargoType($cargo['cargoType']);
-
-                $newCargo->save();
-                $newCargoes[] = $newCargo;
-            }
-
-            $transport->setCargoes($newCargoes);
+            $cargoes = $cargoesService->create($formData['cargoes']);
+            $transport->setCargoes($cargoes);
 
             $transport->save();
 
-            $mail = $generator->create($transport, $newCargoes, $documents);
+            $mail = $generator->create($transport, $cargoes, $documents);
             $mail->send();
 
             $this->addFlash('success', $translator->trans('general.transport-submitted'));
 
             return $this->render('transport/transport_submit_success.html.twig',
-                ['transport' => $transport, 'cargoes' => $newCargoes]);
+                ['transport' => $transport, 'cargoes' => $cargoes]);
         }
 
         return $this->render('transport/transport_submit.html.twig', [
