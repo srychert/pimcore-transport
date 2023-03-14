@@ -22,15 +22,6 @@ class CreateDataCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        \Pimcore\Model\Translation::importTranslationsFromFile(__DIR__ . '/../../export_messages_translations.csv');
-
-        $page = new \Pimcore\Model\Document\Page();
-        $page->setParentId(1);
-        $page->setKey('form');
-        $page->setController('App\Controller\TransportController::transportSubmitAction');
-        $page->setPublished(true);
-        $page->save();
-
         $airplanes = [
             [
                 'key' => 'AirbusA380',
@@ -63,7 +54,17 @@ class CreateDataCommand extends Command
 
             $newAirplane->setPublished(true);
             $newAirplane->save();
+            sleep(1);
         }
+
+        \Pimcore\Model\Translation::importTranslationsFromFile(__DIR__ . '/../../export_messages_translations.csv');
+
+        $page = new \Pimcore\Model\Document\Page();
+        $page->setParentId(1);
+        $page->setKey('form');
+        $page->setController('App\Controller\TransportController::transportSubmitAction');
+        $page->setPublished(true);
+        $page->save();
 
         return Command::SUCCESS;
     }
